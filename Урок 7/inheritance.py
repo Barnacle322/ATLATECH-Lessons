@@ -47,12 +47,45 @@ class EBook(Book):
         return f"{super().__repr__()} | {self.file_size} MB | {self.file_type}"
 
 
-ebook = EBook(
-    "Убийство в восточном экспрессе",
-    "Agatha Christie",
-    250,
-    2500.0,
-    "pdf",
-)
-ebook.mark_as_read()
-print(ebook)
+class AudioBook(Book):
+    duration_hours: float
+
+    def __init__(
+        self,
+        title: str,
+        author: str,
+        pages: int,
+        duration_hours: float,
+        is_read: bool = False,
+    ):
+        super().__init__(title, author, pages, is_read)
+        self.duration_hours = duration_hours
+
+    def __repr__(self):
+        return f"{super().__repr__()} | {self.duration_hours} часов"
+
+
+# Полиморфизм(много форм)
+def save_books(books: list[Book]) -> None:
+    """
+    Эта функция принимает любую книгу и записывает в library.txt
+    """
+    with open(file="./Урок 7/library.txt", mode="w") as file:
+        for book in books:
+            file.write(str(book) + "\n")
+
+
+catalog = [
+    Book("Властелин колец", "Толкин", 1200),
+    EBook("Дюна", "Фрэнк Герберт", 412, 15.3, "pdf"),
+    AudioBook("Гарри Поттер", "Роулинг", 500, 8.5),
+]
+
+save_books(catalog)
+
+test = "asdf"
+print(len(test))
+print(len(catalog))
+
+for item in catalog:
+    print(item)
